@@ -12,11 +12,11 @@ const sequelize = new Sequelize(
     config.mysql.database,
     config.mysql.username,
     config.mysql.password,
-    config.mysql.dialect,
-    { ...config.mysql, logQueryParameters: !!(!env || env === 'development') },
+    // config.mysql.dialect,
+    { ...config.mysql, dialect: 'mysql', logQueryParameters: !!(!env || env === 'development') },
 );
 
-fs.readdirSync(`${__dirname}/models`)
+fs.readdirSync(`${__dirname}`)
     .filter(
         (file) => file.indexOf('.') !== 0
             && file !== basename
@@ -24,7 +24,7 @@ fs.readdirSync(`${__dirname}/models`)
     )
     .forEach((file) => {
         // var model = sequelize['import'](path.join(__dirname, file));
-        const model = require(path.join(`${__dirname}/models`, file))(
+        const model = require(path.join(`${__dirname}`, file))(
             sequelize,
             Sequelize.DataTypes
         );
